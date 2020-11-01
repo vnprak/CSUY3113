@@ -2,3 +2,5 @@ C:\Users\spong\Documents\CSUY3113\P1\SDLProject\Debug\SDLProject.exe
 C:\Users\spong\Documents\CSUY3113\P1\SDLProject\Debug\SDLProject.pdb
 C:\Users\spong\Documents\CSUY3113\P2\SDLProject\Debug\SDLProject.exe
 C:\Users\spong\Documents\CSUY3113\P2\SDLProject\Debug\SDLProject.pdb
+C:\Users\spong\Documents\NYU_Game_Programming\CSUY3113\P2\SDLProject\Debug\SDLProject.exe
+C:\Users\spong\Documents\NYU_Game_Programming\CSUY3113\P2\SDLProject\Debug\SDLProject.pdb
