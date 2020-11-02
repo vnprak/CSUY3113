@@ -2,7 +2,6 @@
 
 Entity::Entity()
 {
-    entityType = PLATFORM;
     position = glm::vec3(0);
     movement = glm::vec3(0);
     acceleration = glm::vec3(0);
@@ -106,7 +105,7 @@ void Entity::Update(float deltaTime, Entity *platforms, int platformCount)
         velocity.y += jumpPower;
     }
 
-    //velocity.x = movement.x * speed;
+    velocity.x = movement.x * speed;
     velocity += acceleration * deltaTime;
     
     position.y += velocity.y * deltaTime;       // Move on Y
@@ -149,82 +148,27 @@ void Entity::DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID
 
 void Entity::Render(ShaderProgram *program) {
     program->SetModelMatrix(modelMatrix);
-
+    
     if (isActive == false) return;
 
-    else {
-        if (animIndices != NULL) {
-            DrawSpriteFromTextureAtlas(program, textureID, animIndices[animIndex]);
-            return;
-        }
-
-        float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
-        float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
-
-        glBindTexture(GL_TEXTURE_2D, textureID);
-
-        glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
-        glEnableVertexAttribArray(program->positionAttribute);
-
-        glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
-        glEnableVertexAttribArray(program->texCoordAttribute);
-
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        glDisableVertexAttribArray(program->positionAttribute);
-        glDisableVertexAttribArray(program->texCoordAttribute);
+    if (animIndices != NULL) {
+        DrawSpriteFromTextureAtlas(program, textureID, animIndices[animIndex]);
+        return;
     }
-}
-
-void Entity::DrawText(ShaderProgram* program, GLuint fontTextureID, std::string text,
-    float size, float spacing, glm::vec3 position)
-{
-    float width = 1.0f / 16.0f;
-    float height = 1.0f / 16.0f;
-
-    std::vector<float> vertices;
-    std::vector<float> texCoords;
-
-    for (int i = 0; i < text.size(); i++) {
-
-        int index = (int)text[i];
-        float offset = (size + spacing) * i;
-        float u = (float)(index % 16) / 16.0f;
-        float v = (float)(index / 16) / 16.0f;
-
-        vertices.insert(vertices.end(), {
-            offset + (-0.5f * size), 0.5f * size,
-            offset + (-0.5f * size), -0.5f * size,
-            offset + (0.5f * size), 0.5f * size,
-            offset + (0.5f * size), -0.5f * size,
-            offset + (0.5f * size), 0.5f * size,
-            offset + (-0.5f * size), -0.5f * size,
-            });
-        texCoords.insert(texCoords.end(), {
-            u, v,
-            u, v + height,
-            u + width, v,
-            u + width, v + height,
-            u + width, v,
-            u, v + height,
-            });
-
-    } // end of for loop
-    glm::mat4 modelMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::translate(modelMatrix, position);
-    program->SetModelMatrix(modelMatrix);
-
-    glUseProgram(program->programID);
-
-    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices.data());
+    
+    float vertices[]  = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
+    float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
+    
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->positionAttribute);
-
-    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords.data());
+    
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
     glEnableVertexAttribArray(program->texCoordAttribute);
-
-    glBindTexture(GL_TEXTURE_2D, fontTextureID);
-    glDrawArrays(GL_TRIANGLES, 0, (int)(text.size() * 6));
-
+    
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
