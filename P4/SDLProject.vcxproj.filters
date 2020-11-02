@@ -67,5 +67,11 @@
     <Image Include="platformPack_tile001.png">
       <Filter>Source Files</Filter>
     </Image>
+    <Image Include="font1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pow_block.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

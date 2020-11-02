@@ -43,6 +43,14 @@ void Entity::CheckCollisionsY(Entity* objects, int objectCount)
                 velocity.y = 0;
                 collidedBottom = true;
             }
+
+            if (entityType == ENEMY)
+            {
+                if (aiType == DROPPER && aiState == ATTACKING)
+                {
+                    object->isActive = false;
+                }
+            }
         }
     }
 }
@@ -71,7 +79,86 @@ void Entity::CheckCollisionsX(Entity* objects, int objectCount)
     }
 }
 
-void Entity::Update(float deltaTime, Entity *platforms, int platformCount)
+void Entity::AIWalker()
+{
+    movement = glm::vec3(-1, 0, 0);
+}
+
+void Entity::AIWaitAndGo(Entity *player)
+{
+    switch (aiState)
+    {
+    case IDLE:
+        if (glm::distance(position, player->position) < 3.0f)
+        {
+            aiState = WALKING;
+        }
+        break;
+
+    case WALKING:
+        if (player->position.x < position.x) {
+            movement = glm::vec3(-1, 0, 0);
+        }
+        else
+        {
+            movement = glm::vec3(1, 0, 0);
+        }
+        break;
+        
+    case ATTACKING:
+        break;
+    }
+}
+
+void Entity::AIDropper(Entity *player)
+{
+    if (player->position.x < position.x)
+    {
+        movement = glm::vec3(-1, 0, 0);
+    }
+    else
+    {
+        movement = glm::vec3(1, 0, 0);
+    }
+
+    float xdist = fabs(position.x - player->position.x) - ((width + player->width) / 2.0f);
+
+    if (xdist < 0)
+    {
+        aiState = ATTACKING;
+        acceleration = glm::vec3(0, -5.0f, 0);
+        speed = 0;
+    }
+}
+
+void Entity::AIJumper(Entity *player)
+{
+
+}
+
+void Entity::AI(Entity *player)
+{
+    switch (aiType)
+    {
+        case WALKER:
+            AIWalker();
+            break;
+            
+        case WAITANDGO:
+            AIWaitAndGo(player);
+            break;
+
+        case DROPPER:
+            AIDropper(player);
+            break;
+
+        case JUMPER:
+            AIJumper(player);
+            break;
+    }
+}
+
+void Entity::Update(float deltaTime, Entity *player, Entity *platforms, int platformCount)
 {
     if (isActive == false) return;
 
@@ -80,6 +167,11 @@ void Entity::Update(float deltaTime, Entity *platforms, int platformCount)
     collidedLeft = false;
     collidedRight = false;
 
+    if (entityType == ENEMY)
+    {
+        AI(player);
+    }
+    
     if (animIndices != NULL) {
         if (glm::length(movement) != 0) {
             animTime += deltaTime;
@@ -169,6 +261,59 @@ void Entity::Render(ShaderProgram *program) {
     
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+}
+
+void Entity::DrawText(ShaderProgram* program, GLuint fontTextureID, std::string text,
+    float size, float spacing, glm::vec3 position)
+{
+    float width = 1.0f / 16.0f;
+    float height = 1.0f / 16.0f;
+
+    std::vector<float> vertices;
+    std::vector<float> texCoords;
+
+    for (int i = 0; i < text.size(); i++) {
+
+        int index = (int)text[i];
+        float offset = (size + spacing) * i;
+        float u = (float)(index % 16) / 16.0f;
+        float v = (float)(index / 16) / 16.0f;
+
+        vertices.insert(vertices.end(), {
+            offset + (-0.5f * size), 0.5f * size,
+            offset + (-0.5f * size), -0.5f * size,
+            offset + (0.5f * size), 0.5f * size,
+            offset + (0.5f * size), -0.5f * size,
+            offset + (0.5f * size), 0.5f * size,
+            offset + (-0.5f * size), -0.5f * size,
+            });
+        texCoords.insert(texCoords.end(), {
+            u, v,
+            u, v + height,
+            u + width, v,
+            u + width, v + height,
+            u + width, v,
+            u, v + height,
+            });
+
+    } // end of for loop
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    program->SetModelMatrix(modelMatrix);
+
+    glUseProgram(program->programID);
+
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices.data());
+    glEnableVertexAttribArray(program->positionAttribute);
+
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords.data());
+    glEnableVertexAttribArray(program->texCoordAttribute);
+
+    glBindTexture(GL_TEXTURE_2D, fontTextureID);
+    glDrawArrays(GL_TRIANGLES, 0, (int)(text.size() * 6));
+
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }

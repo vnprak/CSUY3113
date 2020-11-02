@@ -10,9 +10,19 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
+#include <vector>
+
+enum EntityType{PLAYER, PLATFORM, ENEMY, PROJECTILE, ENEMYPROJECTILE, STRING};
+
+enum AIType{ WALKER, JUMPER, WAITANDGO, DROPPER };
+enum AIState { IDLE, WALKING, ATTACKING};
 
 class Entity {
 public:
+    EntityType entityType;
+    AIType aiType;
+    AIState aiState;
+
     glm::vec3 position;
     glm::vec3 movement;
     glm::vec3 acceleration;
@@ -56,7 +66,15 @@ public:
     void CheckCollisionsY(Entity* objects, int objectCount);
     void CheckCollisionsX(Entity* objects, int objectCount);
 
-    void Update(float deltaTime, Entity* platforms, int platformCount);
+    void Update(float deltaTime, Entity *player, Entity* platforms, int platformCount);
     void Render(ShaderProgram *program);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index);
+
+    void AI(Entity *player);
+    void AIWalker();
+    void AIWaitAndGo(Entity *player);
+    void AIDropper(Entity* player);
+    void AIJumper(Entity* player);
+    void DrawText(ShaderProgram* program, GLuint fontTextureID, std::string text,
+        float size, float spacing, glm::vec3 position);
 };

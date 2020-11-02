@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="ctg.png" />
+    <Image Include="font1.png" />
     <Image Include="george_0.png" />
     <Image Include="ghost bears.png" />
     <Image Include="Kodiak.png" />
@@ -144,6 +145,7 @@
     <Image Include="mario_block.png" />
     <Image Include="obama.png" />
     <Image Include="platformPack_tile001.png" />
+    <Image Include="pow_block.png" />
     <Image Include="question_block.jpg" />
     <Image Include="right_joey.PNG" />
     <Image Include="tileset.png" />

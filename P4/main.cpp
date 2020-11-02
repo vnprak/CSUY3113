@@ -16,17 +16,26 @@
 
 #include "Entity.h"
 
-#define PLATFORM_COUNT 5
+#define PLATFORM_COUNT 11
+#define CEILING_COUNT 11
+#define ENEMY_COUNT 3
 
 struct GameState {
     Entity *player;
     Entity *platforms;
+    Entity* ceilings;
+    Entity* enemies;
+    Entity* strings;
+    Entity* pow;
 };
 
 GameState state;
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
+bool gameWon = false;
+bool gameLost = false;
+bool killCount = 0;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
@@ -86,7 +95,8 @@ void Initialize() {
     
     // Initialize Player
     state.player = new Entity();
-    state.player->position = glm::vec3(0);
+    state.player->entityType = PLAYER;
+    state.player->position = glm::vec3(-4, -1, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -9.81f, 0);
     state.player->speed = 1.5f;
@@ -107,32 +117,77 @@ void Initialize() {
     state.player->height = 0.8f;
     state.player->width = 0.8f;
 
-    state.player->jumpPower = 5.0f;
+    state.player->jumpPower = 7.0f;
     
  
     state.platforms = new Entity[PLATFORM_COUNT];
+    state.ceilings = new Entity[CEILING_COUNT];
+    state.pow = new Entity[1];
 
     GLuint platformTextureID = LoadTexture("platformPack_tile001.png");
+    GLuint ceilingTextureID = LoadTexture("mario_block.png");
+    GLuint fontTextureID = LoadTexture("font1.png");
+    GLuint powTextureID = LoadTexture("pow_block.png");
 
-    state.platforms[0].textureID = platformTextureID;
-    state.platforms[0].position = glm::vec3(-1, -3.25f, 0);
-
-    state.platforms[1].textureID = platformTextureID;
-    state.platforms[1].position = glm::vec3(0, -3.25f, 0);
-
-    state.platforms[2].textureID = platformTextureID;
-    state.platforms[2].position = glm::vec3(1, -3.25f, 0);
-
-    state.platforms[3].textureID = platformTextureID;
-    state.platforms[3].position = glm::vec3(-3 , -3.25f, 0);
-
-    state.platforms[4].textureID = platformTextureID;
-    state.platforms[4].position = glm::vec3(1.5f, -2.25f, 0);
+    state.strings = new Entity;
+    state.strings->textureID = fontTextureID;
+    state.strings->entityType = STRING;
 
     for (int i = 0; i < PLATFORM_COUNT; i++)
     {
-        state.platforms[i].Update(0, NULL, 0);
+        state.platforms[i].entityType = PLATFORM;
+        state.platforms[i].textureID = platformTextureID;
+        state.platforms[i].position = glm::vec3(-5+i, -3.25f, 0);
     }
+
+    for (int i = 0; i < PLATFORM_COUNT; i++)
+    {
+        state.platforms[i].Update(0, NULL, NULL, 0);
+    }
+
+
+    for (int i = 0; i < CEILING_COUNT; i++)
+    {
+        state.ceilings[i].entityType = PLATFORM;
+        state.ceilings[i].textureID = ceilingTextureID;
+        state.ceilings[i].position = glm::vec3(-5 + i, 2.25f, 0);
+    }
+
+    for (int i = 0; i < CEILING_COUNT; i++)
+    {
+        state.ceilings[i].Update(0, NULL, NULL, 0);
+    }
+
+    state.pow[0].entityType = PLATFORM;
+    state.pow[0].textureID = powTextureID;
+    state.pow[0].position = glm::vec3(-3, -0.25, 0);
+    state.pow[0].Update(0, NULL, NULL, 0);
+
+    state.enemies = new Entity[ENEMY_COUNT];
+    GLuint enemyTextureID = LoadTexture("ctg.png");
+
+    state.enemies[0].entityType = ENEMY;
+    state.enemies[0].textureID = enemyTextureID;
+    state.enemies[0].position = glm::vec3(4, -2.25, 0);
+    state.enemies[0].speed = 1;
+    state.enemies[0].aiType = WAITANDGO;
+    state.enemies[0].aiState = IDLE;
+    state.enemies[0].acceleration = glm::vec3(0, -9.81f, 0);
+
+    state.enemies[1].entityType = ENEMY;
+    state.enemies[1].textureID = enemyTextureID;
+    state.enemies[1].position = glm::vec3(5, -2.25, 0);
+    state.enemies[1].speed = 1;
+    state.enemies[1].aiType = WALKER;
+    state.enemies[1].acceleration = glm::vec3(0, -9.81f, 0);
+
+    state.enemies[2].entityType = ENEMY;
+    state.enemies[2].textureID = enemyTextureID;
+    state.enemies[2].position = glm::vec3(4, 3.25, 0);
+    state.enemies[2].speed = 2;
+    state.enemies[2].aiType = DROPPER;
+    state.enemies[2].aiState = IDLE;
+
 }
 
 void ProcessInput() {
@@ -190,6 +245,7 @@ void ProcessInput() {
 float lastTicks = 0;
 float accumulator = 0.0f;
 void Update() {
+    if (gameWon || gameLost) return;
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
     lastTicks = ticks;
@@ -202,10 +258,20 @@ void Update() {
 
     while (deltaTime >= FIXED_TIMESTEP) {
         // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
-        state.player->Update(FIXED_TIMESTEP, state.platforms, PLATFORM_COUNT);
+        state.player->Update(FIXED_TIMESTEP, state.player, state.platforms, PLATFORM_COUNT);
+        if (state.player->CheckCollision(state.pow)) gameWon = true;
+
+        for (int i = 0; i < ENEMY_COUNT; i++)
+        {
+            state.enemies[i].Update(FIXED_TIMESTEP, state.player, state.platforms, PLATFORM_COUNT);
+            if (gameWon) state.enemies[i].isActive = false;
+            else if (state.enemies[i].CheckCollision(state.player)) gameLost = true;
+        }
 
         deltaTime -= FIXED_TIMESTEP;
     }
+
+    if (killCount >= ENEMY_COUNT) gameWon = true;
 
     accumulator = deltaTime;
 }
@@ -220,7 +286,29 @@ void Render() {
         state.platforms[i].Render(&program);
     }
 
-    state.player->Render(&program);
+    for (int i = 0; i < CEILING_COUNT; i++)
+    {
+        state.ceilings[i].Render(&program);
+    }
+    
+    for (int i = 0; i < ENEMY_COUNT; i++)
+    {
+        state.enemies[i].Render(&program);
+    }
+
+    state.pow[0].Render(&program);
+
+    if (!gameLost) state.player->Render(&program);
+
+    if (gameWon)
+    {
+        state.strings->DrawText(&program, state.strings->textureID, "Mission Successful", 0.5f, -0.25f, glm::vec3(-2.5f, 0.0f, 0.0f));
+    }
+
+    else if (gameLost)
+    {
+        state.strings->DrawText(&program, state.strings->textureID, "Mission Failed", 0.5f, -0.25f, glm::vec3(-2.0f, 0.0f, 0.0f));
+    }
     
     SDL_GL_SwapWindow(displayWindow);
 }
