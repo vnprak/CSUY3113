@@ -302,12 +302,12 @@ void Render() {
 
     if (gameWon)
     {
-        state.strings->DrawText(&program, state.strings->textureID, "Mission Successful", 0.5f, -0.25f, glm::vec3(-2.5f, 0.0f, 0.0f));
+        state.strings->DrawText(&program, state.strings->textureID, "You Win", 0.5f, -0.25f, glm::vec3(-0.5f, 0.0f, 0.0f));
     }
 
     else if (gameLost)
     {
-        state.strings->DrawText(&program, state.strings->textureID, "Mission Failed", 0.5f, -0.25f, glm::vec3(-2.0f, 0.0f, 0.0f));
+        state.strings->DrawText(&program, state.strings->textureID, "You Lose", 0.5f, -0.25f, glm::vec3(-0.5f, 0.0f, 0.0f));
     }
     
     SDL_GL_SwapWindow(displayWindow);
