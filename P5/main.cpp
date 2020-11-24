@@ -30,13 +30,14 @@ SDL_Window* displayWindow;
 bool gameIsRunning = true;
 bool gameWon = false;
 bool gameLost = false;
+bool gameStart = false;
 int lives = 3;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 Scene* currentScene;
-Scene* sceneList[4];
+Scene* sceneList[3];
 
 
 GLuint fontTextureID;
@@ -49,40 +50,40 @@ void SwitchToScene(Scene* scene) {
 
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    displayWindow = SDL_CreateWindow("Textured!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("Can't spell bad encapsulation without psula", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
-    
+
 #ifdef _WINDOWS
     glewInit();
 #endif
-    
+
     glViewport(0, 0, 640, 480);
-    
+
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
 
-    
+
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
-    
+
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
-    
+
     glUseProgram(program.programID);
-    
+
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glEnable(GL_BLEND);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-   
+
 
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
     sceneList[2] = new Level3();
-    //sceneList[3] = new TitleScreen();
+    //sceneList[3] = new WinScreen();
     SwitchToScene(sceneList[0]);
-    
+
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 
@@ -94,41 +95,47 @@ void Initialize() {
 }
 
 void ProcessInput() {
-    
+
     currentScene->state.player->movement = glm::vec3(0);
     currentScene->state.player->acceleration = glm::vec3(0, -9.81f, 0);
-    
+
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
-            case SDL_QUIT:
-            case SDL_WINDOWEVENT_CLOSE:
-                gameIsRunning = false;
+        case SDL_QUIT:
+        case SDL_WINDOWEVENT_CLOSE:
+            gameIsRunning = false;
+            break;
+
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+            case SDLK_LEFT:
+                // Move the player left
                 break;
-                
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_LEFT:
-                        // Move the player left
-                        break;
-                        
-                    case SDLK_RIGHT:
-                        // Move the player right
-                        break;
-                        
-                    case SDLK_SPACE:
-                        if (currentScene->state.player->collidedBottom)
-                        {
-                            Mix_PlayChannel(-1, bounce, 0);
-                            currentScene->state.player->jump = true;
-                        }
-                        break;
+
+            case SDLK_RIGHT:
+                // Move the player right
+                break;
+
+            case SDLK_SPACE:
+                if (currentScene->state.player->collidedBottom)
+                {
+                    Mix_PlayChannel(-1, bounce, 0);
+                    currentScene->state.player->jump = true;
                 }
-                break; // SDL_KEYDOWN
+                break;
+            case SDLK_RETURN:
+                if (!gameStart)
+                {
+                    gameStart = true;
+                }
+                break;
+            }
+            break; // SDL_KEYDOWN
         }
     }
-    
-    const Uint8 *keys = SDL_GetKeyboardState(NULL);
+
+    const Uint8* keys = SDL_GetKeyboardState(NULL);
 
     if (keys[SDL_SCANCODE_LEFT]) {
         currentScene->state.player->movement.x = -1.0f;
@@ -138,9 +145,9 @@ void ProcessInput() {
         currentScene->state.player->movement.x = 1.0f;
         currentScene->state.player->animIndices = currentScene->state.player->animRight;
     }
-    
+
     if (keys[SDL_SCANCODE_SPACE]) {
-        if(currentScene->state.player->movement.y >= 0.0f) currentScene->state.player->acceleration = glm::vec3(0, -5.0f, 0);;
+        if (currentScene->state.player->movement.y >= 0.0f) currentScene->state.player->acceleration = glm::vec3(0, -5.0f, 0);;
     }
 
     if (glm::length(currentScene->state.player->movement) > 1.0f) {
@@ -172,11 +179,17 @@ void Update() {
     accumulator = deltaTime;
 
     viewMatrix = glm::mat4(1.0f);
-    if (currentScene->state.player->position.x > 5) {
+    if (currentScene->state.player->position.x > 15)
+    {
+        viewMatrix = glm::translate(viewMatrix, glm::vec3(-15, 3.75, 0));
+    }
+    else if (currentScene->state.player->position.x > 5)
+    {
         viewMatrix = glm::translate(viewMatrix,
             glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
     }
-    else {
+    else
+    {
         viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
     }
 
@@ -185,12 +198,44 @@ void Update() {
 
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
-
+    if (!gameStart) {
+        viewMatrix = glm::mat4(1.0f);
+        Util::DrawText(&program, fontTextureID, "Super Good Game", .75f, -0.3f, glm::vec3(-3.0, 0.05, 0.0));
+        Util::DrawText(&program, fontTextureID, "Press enter to start", 0.5f, -0.25f, glm::vec3(-2.25, -1.0, 0.0));
+    }
     program.SetViewMatrix(viewMatrix);
 
-    currentScene->Render(&program);
+    if (gameStart) {
+        currentScene->Render(&program);
+        glm::vec3 position = currentScene->state.player->position;
+        std::string xpos = std::to_string((int)position.x);
+        std::string ypos = std::to_string((int)position.y);
+        std::string zpos = std::to_string((int)position.z);
+        std::string pos = "X = " + xpos + ", Y = " + ypos + ", Z = " + zpos;
+        std::string life = "Lives: ";
+        std::string lifeString = life + std::to_string(lives);
+        if (currentScene->state.player->position.x > 15) {
+            Util::DrawText(&program, fontTextureID, lifeString, 0.5f, -0.25f, glm::vec3(11, -0.5f, 0.0f));
+            //Util::DrawText(&program, fontTextureID, pos, 0.5f, -0.25f, glm::vec3(currentScene->state.player->position.x - 4.0f, -3.5f, 0.0f));
+            //std::string testx = std::to_string(-currentScene->state.player->position.x);
+            //Util::DrawText(&program, fontTextureID, testx, 0.5f, -0.25f, glm::vec3(currentScene->state.player->position.x - 4.0f, -3.5f, 0.0f));
+        }
+        else if (currentScene->state.player->position.x > 5) {
+            Util::DrawText(&program, fontTextureID, lifeString, 0.5f, -0.25f, glm::vec3(currentScene->state.player->position.x - 4.0f, -0.5f, 0.0f));
+            //Util::DrawText(&program, fontTextureID, pos, 0.5f, -0.25f, glm::vec3(currentScene->state.player->position.x - 4.0f, -3.5f, 0.0f));
+            //std::string testx = std::to_string(-currentScene->state.player->position.x);
+            //Util::DrawText(&program, fontTextureID, testx, 0.5f, -0.25f, glm::vec3(currentScene->state.player->position.x - 4.0f, -3.5f, 0.0f));
+        }
+        else {
+            Util::DrawText(&program, fontTextureID, lifeString, 0.5f, -0.25f, glm::vec3(1.0f, -0.5f, 0.0f));
+            //Util::DrawText(&program, fontTextureID, pos, 0.5f, -0.25f, glm::vec3(1.0f, -3.5f, 0.0f));
+            //std::string testx = std::to_string(-currentScene->state.player->position.x);
+            //Util::DrawText(&program, fontTextureID, testx, 0.5f, -0.25f, glm::vec3(currentScene->state.player->position.x - 4.0f, -3.5f, 0.0f));
 
-    Util::DrawText(&program, fontTextureID, "Test", 0.5f, -0.25f, currentScene->state.player->position);
+        }
+        if (gameLost) Util::DrawText(&program, fontTextureID, "GAME OVER", 0.75f, -0.25f, glm::vec3(currentScene->state.player->position.x - 2.0f, -3.5f, 0.0f));
+        else if (gameWon) Util::DrawText(&program, fontTextureID, "YOU WIN!!", 0.75f, -0.25f, glm::vec3(13.0f, -3.5f, 0.0f));
+    }
 
     SDL_GL_SwapWindow(displayWindow);
 }
@@ -202,10 +247,27 @@ void Shutdown() {
 
 int main(int argc, char* argv[]) {
     Initialize();
-    
+
     while (gameIsRunning) {
         ProcessInput();
-        Update();
+        if (gameStart && !gameLost && !gameWon) Update();
+
+        if (currentScene->state.player->playerIsHit() || currentScene->state.player->position.y < -12)
+        {
+            lives = lives - 1;
+            if (lives <= 0)
+            {
+                gameLost = true;
+                lives = 0;
+                currentScene->state.player->isActive = false;
+            }
+            else currentScene->Initialize();
+        }
+
+        if (!gameLost && currentScene->state.player->isActive == false)
+        {
+            gameWon = true;
+        }
 
         if (currentScene->state.nextScene >= 0) {
             SwitchToScene(sceneList[currentScene->state.nextScene]);
@@ -213,7 +275,7 @@ int main(int argc, char* argv[]) {
         }
         Render();
     }
-    
+
     Shutdown();
     return 0;
 }

@@ -294,7 +294,7 @@ void Entity::Render(ShaderProgram *program) {
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
 
-int Entity::playerIsHit()
+bool Entity::playerIsHit()
 {
     return hitEnemy;
 }

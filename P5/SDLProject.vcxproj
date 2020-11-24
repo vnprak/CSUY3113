@@ -135,7 +135,6 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +145,6 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>
   <ItemGroup>

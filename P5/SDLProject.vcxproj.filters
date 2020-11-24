@@ -42,9 +42,6 @@
     <ClCompile Include="Level3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h">
@@ -69,9 +66,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Level3.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScreen.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

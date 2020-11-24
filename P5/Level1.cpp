@@ -1,20 +1,20 @@
 #include "Level1.h"
 
-#define LEVEL1_WIDTH 14
+#define LEVEL1_WIDTH 21
 #define LEVEL1_HEIGHT 8
 
 #define LEVEL1_ENEMY_COUNT 1
 
 unsigned int level1_data[] =
 {
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
- 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
- 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 3,
+ 3, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 3,
+ 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 3
 };
 
 void Level1::Initialize() {
@@ -56,11 +56,11 @@ void Level1::Initialize() {
 
     state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies->position = glm::vec3(4, -2.25, 0);
+    state.enemies->position = glm::vec3(15, -3, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].aiType = WAITANDGO;
     state.enemies[0].aiState = IDLE;
-    state.enemies[0].isActive = false;
+    state.enemies[0].acceleration = glm::vec3(0, -9.81f, 0);
 
 }
 void Level1::Update(float deltaTime) {
@@ -71,7 +71,7 @@ void Level1::Update(float deltaTime) {
         state.enemies[i].Update(deltaTime, state.player, state.player, 1, state.map);
     }
 
-    if (state.player->position.x >= 12) {
+    if (state.player->position.x >= 18) {
         state.nextScene = 1;
     }
 

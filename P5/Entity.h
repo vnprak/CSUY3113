@@ -77,5 +77,5 @@ public:
     void AI(Entity *player);
     void AIWalker();
     void AIWaitAndGo(Entity *player);
-    int playerIsHit();
+    bool playerIsHit();
 };
