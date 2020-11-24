@@ -1,0 +1,7 @@
+﻿  Entity.cpp
+C:\Users\spong\Documents\CSUY3113\Test Code\P4\Entity.cpp(277,23): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+C:\Users\spong\Documents\CSUY3113\Test Code\P4\main.cpp(274,33): warning C4804: '>=': unsafe use of type 'bool' in operation
+  ShaderProgram.cpp
+  Generating Code...
+  SDLProject.vcxproj -> C:\Users\spong\Documents\CSUY3113\Test Code\P4\Debug\SDLProject.exe

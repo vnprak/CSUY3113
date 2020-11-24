@@ -39,6 +39,12 @@
     <ClCompile Include="Level2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Level3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Level2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreen.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -97,5 +109,24 @@
     <Image Include="platformPack_tile001.png">
       <Filter>Source Files</Filter>
     </Image>
+    <Image Include="font1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="06_The_Forest.mp3">
+      <Filter>Source Files</Filter>
+    </Media>
+    <Media Include="bounce.wav">
+      <Filter>Source Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SDL2_mixer.dll">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="smpeg2.dll">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

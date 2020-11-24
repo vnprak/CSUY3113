@@ -27,10 +27,10 @@ void Level1::Initialize() {
     // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(5, 0, 0);
+    state.player->position = glm::vec3(3, 0, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -9.81f, 0);
-    state.player->speed = 2.0f;
+    state.player->speed = 3.0f;
     state.player->textureID = Util::LoadTexture("george_0.png");
 
     state.player->animRight = new int[4]{ 3, 7, 11, 15 };
@@ -48,7 +48,7 @@ void Level1::Initialize() {
     state.player->height = 0.8f;
     state.player->width = 0.8f;
 
-    state.player->jumpPower = 6.0f;
+    state.player->jumpPower = 4.0f;
 
 
     state.enemies = new Entity[LEVEL1_ENEMY_COUNT];
@@ -64,7 +64,12 @@ void Level1::Initialize() {
 
 }
 void Level1::Update(float deltaTime) {
-	state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
+	state.player->Update(deltaTime, state.player, state.enemies, 1, state.map);
+
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++)
+    {
+        state.enemies[i].Update(deltaTime, state.player, state.player, 1, state.map);
+    }
 
     if (state.player->position.x >= 12) {
         state.nextScene = 1;
@@ -74,4 +79,18 @@ void Level1::Update(float deltaTime) {
 void Level1::Render(ShaderProgram* program) {
 	state.map->Render(program);
 	state.player->Render(program);
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++)
+    {
+        state.enemies[i].Render(program);
+    }
+}
+
+void Level1::setLives(int lives)
+{
+    state.lives = lives;
+}
+
+int Level1::getLives()
+{
+    return state.lives;
 }

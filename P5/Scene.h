@@ -20,6 +20,7 @@ struct GameState {
 	Entity* player;
 	Entity* enemies;
 	int nextScene;
+	int lives = 0;
 };
 class Scene {
 public:
@@ -27,4 +28,6 @@ public:
 	virtual void Initialize() = 0;
 	virtual void Update(float deltaTime) = 0;
 	virtual void Render(ShaderProgram* program) = 0;
+	virtual void setLives(int lives) = 0;
+	virtual int getLives() = 0;
 };

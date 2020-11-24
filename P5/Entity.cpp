@@ -18,8 +18,11 @@ bool Entity::CheckCollision(Entity* other)
     float xdist = fabs(position.x - other->position.x) - ((width + other->width) / 2.0f);
     float ydist = fabs(position.y - other->position.y) - ((height + other->height) / 2.0f);
 
-    if (xdist < 0 && ydist < 0) return true;
-
+    if (xdist < 0 && ydist < 0)
+    {
+        if (other->entityType == ENEMY && this->entityType == PLAYER) this->hitEnemy = true;
+        return true;
+    }
     return false;
 }
 
@@ -190,6 +193,7 @@ void Entity::Update(float deltaTime, Entity *player, Entity *objects, int object
     collidedBottom = false;
     collidedLeft = false;
     collidedRight = false;
+    hitEnemy = false;
 
     if (entityType == ENEMY)
     {
@@ -288,4 +292,9 @@ void Entity::Render(ShaderProgram *program) {
     
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
+}
+
+int Entity::playerIsHit()
+{
+    return hitEnemy;
 }

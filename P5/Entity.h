@@ -59,6 +59,7 @@ public:
     bool collidedBottom = false;
     bool collidedLeft = false;
     bool collidedRight = false;
+    bool hitEnemy = false;
     
     Entity();
     
@@ -76,4 +77,5 @@ public:
     void AI(Entity *player);
     void AIWalker();
     void AIWaitAndGo(Entity *player);
+    int playerIsHit();
 };

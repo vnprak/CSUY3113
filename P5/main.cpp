@@ -19,16 +19,27 @@
 #include "Scene.h"
 #include "Level1.h"
 #include "Level2.h"
+#include "Level3.h"
+#include "TitleScreen.h"
 
+
+Mix_Music* music;
+Mix_Chunk* bounce;
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
+bool gameWon = false;
+bool gameLost = false;
+int lives = 3;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 Scene* currentScene;
-Scene* sceneList[2];
+Scene* sceneList[4];
+
+
+GLuint fontTextureID;
 
 void SwitchToScene(Scene* scene) {
     currentScene = scene;
@@ -49,6 +60,7 @@ void Initialize() {
     glViewport(0, 0, 640, 480);
     
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
+
     
     viewMatrix = glm::mat4(1.0f);
     modelMatrix = glm::mat4(1.0f);
@@ -63,16 +75,28 @@ void Initialize() {
     glEnable(GL_BLEND);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
+   
+
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
+    sceneList[2] = new Level3();
+    //sceneList[3] = new TitleScreen();
     SwitchToScene(sceneList[0]);
     
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+
+    music = Mix_LoadMUS("06_The_Forest.mp3");
+    Mix_PlayMusic(music, -1);
+
+    bounce = Mix_LoadWAV("bounce.wav");
+    fontTextureID = Util::LoadTexture("font1.png");
 }
 
 void ProcessInput() {
     
     currentScene->state.player->movement = glm::vec3(0);
+    currentScene->state.player->acceleration = glm::vec3(0, -9.81f, 0);
     
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -95,6 +119,7 @@ void ProcessInput() {
                     case SDLK_SPACE:
                         if (currentScene->state.player->collidedBottom)
                         {
+                            Mix_PlayChannel(-1, bounce, 0);
                             currentScene->state.player->jump = true;
                         }
                         break;
@@ -114,6 +139,9 @@ void ProcessInput() {
         currentScene->state.player->animIndices = currentScene->state.player->animRight;
     }
     
+    if (keys[SDL_SCANCODE_SPACE]) {
+        if(currentScene->state.player->movement.y >= 0.0f) currentScene->state.player->acceleration = glm::vec3(0, -5.0f, 0);;
+    }
 
     if (glm::length(currentScene->state.player->movement) > 1.0f) {
         currentScene->state.player->movement = glm::normalize(currentScene->state.player->movement);
@@ -151,6 +179,7 @@ void Update() {
     else {
         viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
     }
+
 }
 
 
@@ -160,6 +189,8 @@ void Render() {
     program.SetViewMatrix(viewMatrix);
 
     currentScene->Render(&program);
+
+    Util::DrawText(&program, fontTextureID, "Test", 0.5f, -0.25f, currentScene->state.player->position);
 
     SDL_GL_SwapWindow(displayWindow);
 }
@@ -176,8 +207,10 @@ int main(int argc, char* argv[]) {
         ProcessInput();
         Update();
 
-        if (currentScene->state.nextScene >= 0) SwitchToScene(sceneList[currentScene->state.nextScene]);
-
+        if (currentScene->state.nextScene >= 0) {
+            SwitchToScene(sceneList[currentScene->state.nextScene]);
+            currentScene->state.lives = lives;
+        }
         Render();
     }
     

@@ -27,7 +27,7 @@ void Level2::Initialize() {
     // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(5, 0, 0);
+    state.player->position = glm::vec3(3, 0, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -9.81f, 0);
     state.player->speed = 2.0f;
@@ -56,17 +56,41 @@ void Level2::Initialize() {
 
     state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies->position = glm::vec3(4, -2.25, 0);
+    state.enemies->position = glm::vec3(14, -3, 0);
     state.enemies[0].speed = 1;
-    state.enemies[0].aiType = WAITANDGO;
-    state.enemies[0].aiState = IDLE;
-    state.enemies[0].isActive = false;
+    state.enemies[0].aiType = WALKER;
+    state.enemies[0].acceleration = glm::vec3(0, -9.81f, 0);
+    //state.enemies[0].aiState = IDLE;
+    //state.enemies[0].isActive = false;
 
 }
 void Level2::Update(float deltaTime) {
-    state.player->Update(deltaTime, state.player, state.enemies, LEVEL2_ENEMY_COUNT, state.map);
+    state.player->Update(deltaTime, state.player, state.enemies, 1, state.map);
+
+    for (int i = 0; i < LEVEL2_ENEMY_COUNT; i++)
+    {
+        state.enemies[i].Update(deltaTime, state.player, state.player, 1, state.map);
+    }
+
+    if (state.player->position.x >= 12) {
+        state.nextScene = 2;
+    }
 }
 void Level2::Render(ShaderProgram* program) {
     state.map->Render(program);
     state.player->Render(program);
+    for (int i = 0; i < LEVEL2_ENEMY_COUNT; i++)
+    {
+        state.enemies[i].Render(program);
+    }
+}
+
+void Level2::setLives(int lives)
+{
+    state.lives = lives;
+}
+
+int Level2::getLives()
+{
+    return state.lives;
 }
