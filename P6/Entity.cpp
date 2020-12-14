@@ -3,6 +3,7 @@
 Entity::Entity()
 {
     position = glm::vec3(0);
+    spawn = glm::vec3(0);
     movement = glm::vec3(0);
     acceleration = glm::vec3(0);
     velocity = glm::vec3(0);
@@ -23,20 +24,22 @@ bool Entity::CheckCollision(Entity* other)
 
     if (xdist < 0 && ydist < 0)
     {
-        if (this->entityType == PLAYER && other->entityType == PROJECTILE)
+        if (this->entityType == ENEMY && other->entityType == PROJECTILE)
         {
-            if (other->owner == this) return false;
             this->hit = true;
             other->owner = NULL;
             other->isActive = false;
         }
-        if (this->entityType == PROJECTILE && other->entityType == PLAYER)
+        if (this->entityType == PROJECTILE && other->entityType == ENEMY)
         {
-            if (other->owner == this) return false;
             other->hit = true;
             this->owner = NULL;
             this->isActive = false;
         }
+
+        if (other->entityType == ENEMY && this->entityType == PLAYER) this->hit = true;
+        if (other->entityType == PLAYER && this->entityType == ENEMY) other->hit = true;
+
         return true;
     }
     return false;
@@ -133,6 +136,10 @@ void Entity::CheckCollisionsY(Map* map)
         velocity.y = 0;
         collidedBottom = true;
     }
+    if (entityType == PROJECTILE && (collidedTop || collidedBottom))
+    {
+        isActive = false;
+    }
 }
 
 void Entity::CheckCollisionsX(Map* map)
@@ -154,6 +161,10 @@ void Entity::CheckCollisionsX(Map* map)
         velocity.x = 0;
         collidedRight = true;
     }
+    if (entityType == PROJECTILE && (collidedLeft || collidedRight))
+    {
+        isActive = false;
+    }
 }
 
 void Entity::AIWalker()
@@ -173,16 +184,32 @@ void Entity::AIWaitAndGo(Entity *player)
         break;
 
     case WALKING:
-        if (player->position.x < position.x) {
-            movement = glm::vec3(-1, 0, 0);
-            this->animIndices = this->animLeft;
+        if (abs(player->position.x - position.x) > abs(player->position.y - position.y))
+        {
+            if (player->position.x < position.x) {
+                movement = glm::vec3(-1, 0, 0);
+                this->animIndices = this->animLeft;
+            }
+            else
+            {
+                movement = glm::vec3(1, 0, 0);
+                this->animIndices = this->animRight;
+            }
+            break;
         }
         else
         {
-            movement = glm::vec3(1, 0, 0);
-            this->animIndices = this->animRight;
+            if (player->position.y < position.y) {
+                movement = glm::vec3(0, -1, 0);
+                this->animIndices = this->animDown;
+            }
+            else
+            {
+                movement = glm::vec3(0, 1, 0);
+                this->animIndices = this->animUp;
+            }
+            break;
         }
-        break;
         
     case ATTACKING:
         break;
@@ -203,9 +230,31 @@ void Entity::AI(Entity *player)
     }
 }
 
+void Entity::flight()
+{
+    switch (direction)
+    {
+    case LEFT:
+        movement = glm::vec3(-1, 0, 0);
+        break;
+    case RIGHT:
+        movement = glm::vec3(1, 0, 0);
+        break;
+    case UP:
+        movement = glm::vec3(0, 1, 0);
+        break;
+    case DOWN:
+        movement = glm::vec3(0, -1, 0);
+        break;
+    }
+}
+
 void Entity::fire(Entity* projectile)
 {
-
+    projectile->owner = this;
+    projectile->direction = this->direction;
+    projectile->position = this->position;
+    projectile->isActive = true;
 }
 
 void Entity::Update(float deltaTime, Entity *player, Entity *objects, int objectCount, Map *map)
@@ -220,6 +269,11 @@ void Entity::Update(float deltaTime, Entity *player, Entity *objects, int object
     if (entityType == ENEMY)
     {
         AI(player);
+    }
+
+    if(entityType == PROJECTILE)
+    {
+        flight();
     }
     
     if (animIndices != NULL) {

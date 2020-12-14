@@ -88,6 +88,9 @@
     <Image Include="ball.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="tiles.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="MW4 - WEAPON Railgun.wav">

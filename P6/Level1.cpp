@@ -3,39 +3,41 @@
 #define LEVEL1_WIDTH 15
 #define LEVEL1_HEIGHT 15
 
-#define LEVEL1_ENEMY_COUNT 1
+#define LEVEL1_ENEMY_COUNT 4
 #define PROJECTILE_LIMIT 10
 
 unsigned int level1_data[] =
 {
- 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
+ 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32,
+ 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32
 };
 
 void Level1::Initialize() {
 
     state.nextScene = -1;
 
-	GLuint mapTextureID = Util::LoadTexture("tileset.png");
-	state.map = new Map(LEVEL1_WIDTH, LEVEL1_HEIGHT, level1_data, mapTextureID, 1.0f, 4, 1);
+	GLuint mapTextureID = Util::LoadTexture("tiles.png");
+	state.map = new Map(LEVEL1_WIDTH, LEVEL1_HEIGHT, level1_data, mapTextureID, 1.0f, 16, 16);
 	// Move over all of the player and enemy code from initialization.
     // Initialize Player
     state.player = new Entity();
+    state.player->direction = RIGHT;
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(5, -3, 0);
+    state.player->spawn = glm::vec3(6, -6, 0);
+    state.player->position = state.player->spawn;
     state.player->movement = glm::vec3(0);
     state.player->speed = 3.5f;
     state.player->textureID = Util::LoadTexture("MechSheet.png");
@@ -45,10 +47,10 @@ void Level1::Initialize() {
     state.player->animUp = new int[4]{ 30, 31, 32, 33 };
     state.player->animDown = new int[4]{ 7, 8, 9, 6 };
 
-    state.player->shootRight = new int[4]{ 15, 14, 13, 13 };
-    state.player->shootLeft = new int[4]{ 39, 38, 37, 37 };
-    state.player->shootUp = new int[4]{ 26, 25, 24, 24 };
-    state.player->shootDown = new int[4]{ 3, 2, 1, 1 };
+    state.player->shootRight = new int[4]{ 14, 15, 13, 13 };
+    state.player->shootLeft = new int[4]{ 38, 39, 37, 37 };
+    state.player->shootUp = new int[4]{ 26, 27, 25, 25 };
+    state.player->shootDown = new int[4]{ 2, 3, 1, 1 };
 
     state.player->animIndices = state.player->animRight;
     state.player->animFrames = 4;
@@ -63,10 +65,12 @@ void Level1::Initialize() {
     state.player->colwidth = 1.4f;
 
     state.projectiles = new Entity[PROJECTILE_LIMIT];
+    state.maxBullets = PROJECTILE_LIMIT;
     GLuint projectileTextureID = Util::LoadTexture("ball.png");
 
     for (int i = 0; i < PROJECTILE_LIMIT; i++)
     {
+        state.projectiles[i].direction = RIGHT;
         state.projectiles[i].entityType = PROJECTILE;
         state.projectiles[i].textureID = projectileTextureID;
         state.projectiles[i].position = glm::vec3(0);
@@ -76,41 +80,52 @@ void Level1::Initialize() {
 
         state.projectiles[i].animRight = new int[4]{0, 3, 6, 3};
 
-        state.projectiles[0].animIndices = state.projectiles[0].animRight;
-        state.projectiles[0].animFrames = 4;
-        state.projectiles[0].animIndex = 0;
-        state.projectiles[0].animTime = 0;
-        state.projectiles[0].animCols = 3;
-        state.projectiles[0].animRows = 4;
+        state.projectiles[i].animIndices = state.projectiles[0].animRight;
+        state.projectiles[i].animFrames = 4;
+        state.projectiles[i].animIndex = 0;
+        state.projectiles[i].animTime = 0;
+        state.projectiles[i].animCols = 3;
+        state.projectiles[i].animRows = 4;
     }
 
     state.enemies = new Entity[LEVEL1_ENEMY_COUNT];
     GLuint enemyTextureID = Util::LoadTexture("MechSheet Enemy.png");
 
-    state.enemies[0].entityType = ENEMY;
-    state.enemies[0].textureID = enemyTextureID;
-    state.enemies->position = glm::vec3(15, -3, 0);
-    state.enemies[0].speed = 1;
-    state.enemies[0].aiType = WAITANDGO;
-    state.enemies[0].aiState = IDLE;
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++) {
+        state.enemies[i].entityType = ENEMY;
+        state.enemies[i].textureID = enemyTextureID;
+        state.enemies->position = glm::vec3(12, -3, 0);
+        state.enemies[i].speed = 1;
+        state.enemies[i].aiType = WAITANDGO;
+        state.enemies[i].aiState = WALKING;
 
-    state.enemies[0].animRight = new int[4]{ 18, 19, 20, 21 };
-    state.enemies[0].animLeft = new int[4]{ 42, 43, 44, 45 };
-    state.enemies[0].animUp = new int[4]{ 30, 31, 32, 33 };
-    state.enemies[0].animDown = new int[4]{ 7, 8, 9, 6 };
+        state.enemies[i].animRight = new int[4]{ 18, 19, 20, 21 };
+        state.enemies[i].animLeft = new int[4]{ 42, 43, 44, 45 };
+        state.enemies[i].animUp = new int[4]{ 30, 31, 32, 33 };
+        state.enemies[i].animDown = new int[4]{ 7, 8, 9, 6 };
 
-    state.enemies[0].animIndices = state.enemies[0].animRight;
-    state.enemies[0].animFrames = 4;
-    state.enemies[0].animIndex = 0;
-    state.enemies[0].animTime = 0;
-    state.enemies[0].animCols = 12;
-    state.enemies[0].animRows = 8;
+        state.enemies[i].animIndices = state.enemies[i].animRight;
+        state.enemies[i].animFrames = 4;
+        state.enemies[i].animIndex = 0;
+        state.enemies[i].animTime = 0;
+        state.enemies[i].animCols = 12;
+        state.enemies[i].animRows = 8;
 
-    state.enemies[0].height = 2.0f;
-    state.enemies[0].width = 2.0f;
-    state.enemies[0].colheight = 1.2f;
-    state.enemies[0].colwidth = 1.4f;
+        state.enemies[i].height = 2.0f;
+        state.enemies[i].width = 2.0f;
+        state.enemies[i].colheight = 1.2f;
+        state.enemies[i].colwidth = 1.4f;
+    }
+    
+    state.enemies[0].spawn = glm::vec3(2, -2, 0);
+    state.enemies[1].spawn = glm::vec3(12, -2, 0);
+    state.enemies[2].spawn = glm::vec3(2, -12, 0);
+    state.enemies[3].spawn = glm::vec3(12, -12, 0);
 
+    state.enemies[0].position = glm::vec3(2, -2, 0);
+    state.enemies[1].position = glm::vec3(12, -2, 0);
+    state.enemies[2].position = glm::vec3(2, -12, 0);
+    state.enemies[3].position = glm::vec3(12, -12, 0);
 }
 void Level1::Update(float deltaTime) {
     state.player->hit = false;
@@ -124,6 +139,11 @@ void Level1::Update(float deltaTime) {
         if (state.enemies[i].invuln > 0) state.enemies[i].invuln--;
     }
 
+    for (int i = 0; i < PROJECTILE_LIMIT; i++)
+    {
+        state.projectiles[i].Update(deltaTime, state.player, state.enemies, 1, state.map);
+    }
+
     if (state.player->entityHit() && state.player->invuln <= 0)
     {
         state.lives = state.lives - 1;
@@ -133,7 +153,6 @@ void Level1::Update(float deltaTime) {
             state.lives = 0;
             state.player->isActive = false;
         }
-        else state.player->invuln = 5000;
     }
 
     if (state.gameLost && state.player->isActive == false)
@@ -149,7 +168,13 @@ void Level1::Update(float deltaTime) {
     {
         state.nextScene = 1;
     }
-
+    for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++)
+    {
+        if (state.enemies[i].hit)
+        {
+            state.enemies[i].position = state.enemies[i].spawn;
+        }
+    }
 }
 void Level1::Render(ShaderProgram* program) {
 	state.map->Render(program);
@@ -157,6 +182,10 @@ void Level1::Render(ShaderProgram* program) {
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++)
     {
         state.enemies[i].Render(program);
+    }
+    for (int i = 0; i < PROJECTILE_LIMIT; i++)
+    {
+        state.projectiles[i].Render(program);
     }
 }
 
@@ -178,4 +207,19 @@ bool Level1::isGameWon()
 bool Level1::isGameLost()
 {
     return state.gameLost;
+}
+
+int Level1::getProjectiles()
+{
+    return state.projectileCount;
+}
+
+void Level1::setProjectiles(int count)
+{
+    state.projectileCount = count;
+}
+
+int Level1::projectileMax()
+{
+    return state.maxBullets;
 }

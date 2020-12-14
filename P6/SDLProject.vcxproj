@@ -153,6 +153,7 @@
     <Image Include="Punch_Both.png" />
     <Image Include="Punch_LeftHand.png" />
     <Image Include="Punch_RightHand.png" />
+    <Image Include="tiles.png" />
     <Image Include="tileset.png" />
   </ItemGroup>
   <ItemGroup>

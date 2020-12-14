@@ -1,55 +1,51 @@
 ﻿  Entity.cpp
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(11,15): warning C4552: '-': result of expression not used
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,32): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,32): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,52): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,52): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,72): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,72): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,92): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,92): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,112): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,131): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,131): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,152): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,152): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,172): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,172): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,192): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,192): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,211): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,211): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,232): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,232): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,251): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(270,251): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,31): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,31): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,51): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,51): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,71): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,91): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,91): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,111): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,111): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,130): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,130): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,151): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,151): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,171): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,171): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,191): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,191): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,210): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,210): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,231): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,231): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,250): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(297,250): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Level1.cpp
-  Scene.cpp
-  main.cpp
-  Generating Code...
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(12,15): warning C4552: '-': result of expression not used
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,32): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,32): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,52): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,52): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,72): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,72): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,92): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,92): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,112): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,131): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,131): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,152): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,152): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,172): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,172): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,192): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,192): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,211): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,211): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,232): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,232): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,251): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(324,251): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,31): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,31): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,51): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,51): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,71): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,91): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,91): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,111): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,111): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,130): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,130): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,151): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,151): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,171): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,171): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,191): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,191): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,210): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,210): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,231): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,231): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,250): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+C:\Users\spong\Documents\CSUY3113\P6\Entity.cpp(351,250): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   SDLProject.vcxproj -> C:\Users\spong\Documents\CSUY3113\P6\Debug\SDLProject.exe

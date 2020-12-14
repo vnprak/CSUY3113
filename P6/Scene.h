@@ -22,6 +22,8 @@ struct GameState {
 	Entity* projectiles;
 	int nextScene;
 	int lives = 0;
+	int projectileCount = 0;
+	int maxBullets = 0;
 	bool gameWon = false;
 	bool gameLost = false;
 };
@@ -35,4 +37,7 @@ public:
 	virtual int getLives() = 0;
 	virtual bool isGameLost() = 0;
 	virtual bool isGameWon() = 0;
+	virtual void setProjectiles(int count) = 0;
+	virtual int getProjectiles() = 0;
+	virtual int projectileMax() = 0;
 };

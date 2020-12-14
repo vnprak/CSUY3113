@@ -16,17 +16,19 @@
 enum EntityType{PLAYER, PLATFORM, ENEMY, PROJECTILE};
 
 enum AIType{ WALKER, WAITANDGO };
-enum AIState { IDLE, WALKING, ATTACKING };
+enum AIState{ IDLE, WALKING, ATTACKING };
 
-enum DIRECTION{ UP, DOWN, LEFT, RIGHT };
+enum Direction{ UP, DOWN, LEFT, RIGHT };
 
 class Entity {
 public:
     EntityType entityType;
     AIType aiType;
     AIState aiState;
+    Direction direction;
 
     glm::vec3 position;
+    glm::vec3 spawn;
     glm::vec3 movement;
     glm::vec3 acceleration;
     glm::vec3 velocity;
@@ -89,4 +91,5 @@ public:
     void AIWaitAndGo(Entity *player);
     bool entityHit();
     void fire(Entity* projectile);
+    void flight();
 };
