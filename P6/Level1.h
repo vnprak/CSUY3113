@@ -13,4 +13,5 @@ public:
 	bool isGameLost() override;
 	bool isGameWon() override;
 	int projectileMax() override;
+	int enemyCount() override;
 };

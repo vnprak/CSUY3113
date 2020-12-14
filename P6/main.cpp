@@ -122,6 +122,7 @@ void ProcessInput() {
                 if (!gameStart)
                 {
                     gameStart = true;
+                    levelTime = TIMER * 1000 + SDL_GetTicks();
                 }
                 break;
             }
@@ -259,11 +260,17 @@ void Render() {
         viewMatrix = glm::mat4(1.0f);
         Util::DrawText(&program, fontTextureID, "Super Good Game", .75f, -0.3f, glm::vec3(-3.0, 0.05, 0.0));
         Util::DrawText(&program, fontTextureID, "Press enter to start.", 0.5f, -0.25f, glm::vec3(-2.25, -1.0, 0.0));
-        Util::DrawText(&program, fontTextureID, "Objective: SURVIVE. (2 min.)", 0.5f, -0.25f, glm::vec3(-2.0, -2.0, 0.0));
+        Util::DrawText(&program, fontTextureID, "Objective: SURVIVE.", 0.5f, -0.25f, glm::vec3(-2.0, -1.5, 0.0));
+        Util::DrawText(&program, fontTextureID, "Spacebar fires projectiles that", 0.5f, -0.25f, glm::vec3(-4.0, -2.0, 0.0));
+        Util::DrawText(&program, fontTextureID, "knock enemies back to spawn", 0.5f, -0.25f, glm::vec3(-3.5, -2.5, 0.0));
     }
     program.SetViewMatrix(viewMatrix);
 
     if (gameStart) {
+        for (int c = 0; c < currentScene->enemyCount(); c++)
+        {
+            currentScene->state.enemies[c].speed = 0.75;
+        }
         currentScene->Render(&program);
         glm::vec3 position = currentScene->state.player->position;
         std::string xpos = std::to_string((float)position.x);

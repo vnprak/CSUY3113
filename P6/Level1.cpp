@@ -74,7 +74,7 @@ void Level1::Initialize() {
         state.projectiles[i].entityType = PROJECTILE;
         state.projectiles[i].textureID = projectileTextureID;
         state.projectiles[i].position = glm::vec3(0);
-        state.projectiles[i].speed = 5;
+        state.projectiles[i].speed = 3;
         state.projectiles[i].owner = NULL;
         state.projectiles[i].isActive = false;
 
@@ -95,7 +95,7 @@ void Level1::Initialize() {
         state.enemies[i].entityType = ENEMY;
         state.enemies[i].textureID = enemyTextureID;
         state.enemies->position = glm::vec3(12, -3, 0);
-        state.enemies[i].speed = 1;
+        state.enemies[i].speed = 0.0;
         state.enemies[i].aiType = WAITANDGO;
         state.enemies[i].aiState = WALKING;
 
@@ -133,16 +133,20 @@ void Level1::Update(float deltaTime) {
 	state.player->Update(deltaTime, state.player, state.enemies, 1, state.map);
     if (state.player->invuln > 0) state.player->invuln--;
 
+    for (int i = 0; i < PROJECTILE_LIMIT; i++)
+    {
+        for (int j = 0; j < LEVEL1_ENEMY_COUNT; j++)
+        {
+            state.projectiles[i].Update(deltaTime, state.player, &state.enemies[j], 1, state.map);
+        }
+    }
+
     for (int i = 0; i < LEVEL1_ENEMY_COUNT; i++)
     {
         state.enemies[i].Update(deltaTime, state.player, state.player, 1, state.map);
         if (state.enemies[i].invuln > 0) state.enemies[i].invuln--;
     }
 
-    for (int i = 0; i < PROJECTILE_LIMIT; i++)
-    {
-        state.projectiles[i].Update(deltaTime, state.player, state.enemies, 1, state.map);
-    }
 
     if (state.player->entityHit() && state.player->invuln <= 0)
     {
@@ -222,4 +226,9 @@ void Level1::setProjectiles(int count)
 int Level1::projectileMax()
 {
     return state.maxBullets;
+}
+
+int Level1::enemyCount()
+{
+    return LEVEL1_ENEMY_COUNT;
 }

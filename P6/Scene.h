@@ -40,4 +40,5 @@ public:
 	virtual void setProjectiles(int count) = 0;
 	virtual int getProjectiles() = 0;
 	virtual int projectileMax() = 0;
+	virtual int enemyCount() = 0;
 };
